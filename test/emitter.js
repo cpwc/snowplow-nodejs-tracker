@@ -43,7 +43,7 @@ var postMock = nock('http://' + endpoint, {
 				});
 
 let headers = {
-	'user-agent': 'snowplow-nodejs-tracker/0.3.0'
+	'user-agent': 'snowplow-nodejs-tracker/0.3.1'
 };
 
 describe('emitter', function () {

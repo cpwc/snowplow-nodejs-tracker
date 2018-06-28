@@ -34,7 +34,7 @@ var completedContext = JSON.stringify({
 });
 
 let headers = {
-	'user-agent': 'snowplow-nodejs-tracker/0.3.0'
+	'user-agent': 'snowplow-nodejs-tracker/0.3.1'
 };
 
 function getMock(method) {
