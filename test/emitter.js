@@ -34,13 +34,17 @@ var postMock = nock('http://' + endpoint, {
 						return true;
 					}
 				})
-				.matchHeader('content-type', 'application/json; charset=utf-8')
+				// .matchHeader('user-agent', 'snowplow-nodejs-tracker/0.3.0')
 				.persist()
 				.filteringRequestBody(function () {return '*'})
 				.post('/com.snowplowanalytics.snowplow/tp2', '*')
 				.reply(200, function(uri, body){
 					return JSON.parse(body).data[0];
 				});
+
+let headers = {
+	'user-agent': 'snowplow-nodejs-tracker/0.3.0'
+};
 
 describe('emitter', function () {
 
@@ -55,7 +59,7 @@ describe('emitter', function () {
 		});
 
 		it('should send an HTTP GET request', function(done) {
-			var e = emitter(endpoint, 'http', 80, 'get', null, function (error, body, response) {
+			var e = emitter(endpoint, 'http', 80, 'get', null, null, function (error, body, response) {
 				assert.deepEqual(response, '/i?a=b');
 				done();
 			});
@@ -63,7 +67,7 @@ describe('emitter', function () {
 		});
 
 		it('should send an HTTP POST request', function(done) {
-			var e = emitter(endpoint, 'http', null, 'post', 1, function (error, body, response) {
+			var e = emitter(endpoint, 'http', null, 'post', headers, 1, function (error, body, response) {
 				assert.deepEqual(response, {a: 'b'});
 				done();
 			});
@@ -71,7 +75,7 @@ describe('emitter', function () {
 		});
 
 		it('should send an HTTPS GET request', function(done) {
-			var e = emitter(endpoint, 'https', 443, 'get', null, function (error, body, response) {
+			var e = emitter(endpoint, 'https', 443, 'get', null, null, function (error, body, response) {
 				assert.deepEqual(response, '/i?a=b');
 				done();
 			});
@@ -79,7 +83,7 @@ describe('emitter', function () {
 		});
 
 		it('should not send requests if the buffer is not full', function(done) {
-			var e = emitter(endpoint, 'https', null, 'post', null, done);
+			var e = emitter(endpoint, 'https', null, 'post', headers, null, done);
 			e.input({});
 			e.input({});
 			e.input({});

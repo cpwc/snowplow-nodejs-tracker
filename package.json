@@ -30,7 +30,7 @@
   ],
   "license": "Apache 2.0",
   "dependencies": {
-    "request": "^2.81.0",
-    "snowplow-tracker-core": "^0.5.0"
+    "request": "^2.87.0",
+    "snowplow-tracker-core": "^0.6.1"
   }
 }
